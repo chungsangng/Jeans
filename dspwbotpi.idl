@@ -1,0 +1,56 @@
+unit = 9
+ds = 0.02
+ds1= 0.0
+ds2 = 0.03
+dy = 0.0
+dx1 = 0.284507 + dy*0.7155
+ch1 = 'a234567890'
+openr,unit,'dspwbotpi.out'
+for i = 1,19 do readf,unit,ch1
+readf,unit,format='(11x,i20)',imode
+readf,unit,alpha
+readf,unit,eps
+readf,unit,xi
+readf,unit,xi3
+lr = fltarr(imode)
+li = lr
+for i = 0,imode-1 do begin readf,unit,format='(e24.16,x,e24.16)',t1,t2&lr(i)=t1&li(i)=t2&end
+set_plot,'ps'
+device,filename='dspwbotpi.ps'
+xyouts,0.,0.,'!6 ' ,/normal
+plot,lr,li,position = [dx1,0.,1.,1.-dy],psym=7,symsize=2.0,$
+;xrange=[0.,0.8],$
+;yrange=[0.,0.8],$
+;xrange=[0.,1.0],$
+;yrange=[0.,1.0],$
+xrange=[0.,1.0],$
+yrange=[0.,1.0],$
+;xrange=[0.11,0.115],$
+;yrange=[0.161,0.166],$
+charsize=1.5,noclip=1
+;xyouts,0.36,0.02,'!7j!6!Dr!N',size = 2
+;xyouts,0.01,0.37,'!7j!6!Di!N',size = 2
+;xyouts,0.2,0.35,'!7a!6 =',size = 2
+;xyouts,0.21,0.35,alpha,size = 2
+;xyouts,0.2,0.32,'!7e!6 =',size = 2
+;xyouts,0.21,0.32,eps,size = 2
+;xyouts,0.2,0.29,'!7n!6 =',size = 2
+;xyouts,0.21,0.29,xi,size = 2
+;xyouts,0.2,0.26,'!7n!6!D3!N =',size = 2
+;xyouts,0.21,0.26,xi3,size = 2
+xyouts,0.92,0.04,'!7j!6!Dr!N',size = 2,/normal
+xyouts,dx1+0.02,0.92,'!7j!6!Di!N',size = 2,/normal
+xyouts,dx1+0.1,-0.2,'!7a!6 =',size = 2,/normal
+xyouts,dx1+0.2,-0.2,alpha,size = 2,/normal
+xyouts,dx1+0.1,-0.3,'!7e!6 =',size = 2,/normal
+xyouts,dx1+0.2,-0.3,eps,size = 2,/normal
+xyouts,dx1+0.1,-0.4,'!7n!6 =',size = 2,/normal
+xyouts,dx1+0.2,-0.4,xi,size = 2,/normal
+xyouts,dx1+0.1,-0.5,'!7n!6!D3!N =',size = 2,/normal
+xyouts,dx1+0.2,-0.5,xi3,size = 2,/normal
+;   xyouts,0.115,0.42,'!6Landau roots',size = 2
+;   xyouts,0.55,-0.4,'!6Figure 5',size = 2,/normal
+close,unit
+device,/close
+set_plot,'x'
+stop

@@ -1,0 +1,65 @@
+unit = 9
+ds = 0.02
+ds1= 0.0
+ds2 = 0.03
+; dy = 0.05
+; dx = 0.14225 + dy*0.7155
+dy = 0.0
+dx1 = 0.284507 + dy*0.7155
+nout = 1
+ch = 'a123'
+;
+openr,unit,'m2botp.out'
+for i=1,10 do readf,unit,ch
+readf,unit,nmax
+readf,unit,nv
+readf,unit,dv
+readf,unit,v0
+readf,unit,alpha
+readf,unit,eps
+readf,unit,xi
+readf,unit,xi3
+for i=1,nmax do readf,unit,ch
+readf,unit,ch
+v=fltarr(2*nv+1)
+f = v
+df = v
+f0 = v
+df0 = v
+f1 = v
+df1 = v
+for i = 0,2*nv do begin readf,unit,format='(7(e16.8,x))',t1,t2,t3,t4,t5,t6,t7&v(i)=t1&f0(i)=t2&df0(i)=t3&f(i)=t4&df(i)=t5&f1(i)=t6&df1(i)=t7&end
+set_plot,'ps'
+device,filename='m2botp.ps'
+xyouts,0.,0.,'!6 ',/normal
+plot,v,f0,$
+; xrange=[-2.,2.],$; 
+yrange= [0.,0.8],$
+position = [dx1,0.,1.,1.-dy],charsize=1.5,linestyle=1;,yrange=[-1.,1.] ,xrange=[2.,3.]
+oplot,v,f
+; oplot,v,f1,linestyle=2
+xyouts,0.,1.05,'!7a!6 = ',size = 1,/normal
+xyouts,0.05,1.05,alpha,/normal
+xyouts,0.3,1.05,'!7e!6 = ',size = 1,/normal
+xyouts,0.35,1.05,eps,/normal
+xyouts,0.6,1.05,'!7n!6 = ',size = 1,/normal
+xyouts,0.65,1.05,xi,/normal
+xyouts,0.9,1.05,'!6nmax = ',size = 1,/normal
+xyouts,0.95,1.05,nmax,/normal
+plot,v,df0,$
+; xrange=[0.21,0.22],yrange= [0.205,0.215],$
+position = [dx1,0.,1.,1.-dy],charsize=1.5,linestyle=1;,yrange=[-1.,1.] ,xrange=[2.,3.]
+oplot,v,df
+; oplot,v,df1,linestyle = 1
+xyouts,0.,1.05,'!7a!6 = ',size = 1,/normal
+xyouts,0.05,1.05,alpha,/normal
+xyouts,0.3,1.05,'!7e!6 = ',size = 1,/normal
+xyouts,0.35,1.05,eps,/normal
+xyouts,0.6,1.05,'!7n!6 = ',size = 1,/normal
+xyouts,0.65,1.05,xi,/normal
+xyouts,0.9,1.05,'!7n!D!63!N = ',size = 1,/normal
+xyouts,0.95,1.05,xi3,/normal
+device,/close
+set_plot,'x'
+close,unit
+

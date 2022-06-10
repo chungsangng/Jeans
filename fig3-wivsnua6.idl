@@ -1,0 +1,50 @@
+unit = 9
+; dy = 0.05
+; dx = 0.14225 + dy*0.7155
+dy = 0.0
+dx1 = 0.284507 + dy*0.7155
+ch = 'a123'
+;
+openr,unit,'wivsnu.oa6'
+for i = 1,20 do readf,unit,ch
+readf,unit,ndata
+nu = 0.05
+nu2 = nu*nu
+wi=fltarr(ndata)
+alpha = wi
+wif = wi
+wif2 = wi
+alpha = wi
+for i = 0,ndata-1 do begin readf,unit,format='(3(e24.16,x))',t1,t2,t3&t4=min([(1.+t1)*2.-nu2,0.])&t5=max([(1.+t1)*2.-nu2,0.])&alpha(i)=t1&wi(i)=t3&wif(i)=(-nu+sqrt(-t4))/2.&wif2(i)=(-nu-sqrt(-t4))/2.&end
+;for i = 0,ndata-1 do begin readf,unit,format='(3(e24.16,x))',t1,t2,t3&alpha(i)=t1&wr(i)=t2&wi(i)=t3&wi2(i)=-wi(i)*wi(i)&w2f(i)=(1.+alpha(i))/2.&end
+set_plot,'ps'
+device,filename='wivsnua6.ps'
+xyouts,0.,0.,'!6 ',/normal
+; plot,alpha,w2f,$
+; position = [dx1,0.,1.,1.-dy],charsize=1.5,linestyle = 2
+; oplot,alpha,wi2
+; xyouts,0.4,1.05,'!7l!6 = ',size = 2.,/normal
+; xyouts,0.4,1.05,0.,size = 2.,/normal
+; xyouts,-9.7,0.4,'!7X!6!U2!N',size = 2.
+; xyouts,-0.8,-4.8,'!7a!6',size = 2.
+; plot,alpha,wrf,$
+; position = [dx1,0.,1.,1.-dy],charsize=1.5,linestyle = 2
+; oplot,alpha,wr
+; xyouts,0.4,1.05,'!7l!6 = ',size = 2.,/normal
+; xyouts,0.4,1.05,0.05,size = 2.,/normal
+; xyouts,-9.7,0.4,'!7X!6!U2!N',size = 2.
+; xyouts,-0.7,-4.8,'!7a!6',size = 2.
+plot,alpha,wi,$
+position = [dx1,0.,1.,1.-dy],charsize=1.5
+oplot,alpha,wif,linestyle = 2
+oplot,alpha,wif2,linestyle = 3
+xyouts,0.4,1.05,'!7l!6 = ',size = 2.,/normal
+xyouts,0.4,1.05,0.05,size = 2.,/normal
+xyouts,-9.7,1.6,'!7X!6!Di!N',size = 2.
+xyouts,-0.9,-1.9,'!7a!6',size = 2.
+device,/close
+set_plot,'x'
+close,unit
+stop
+
+

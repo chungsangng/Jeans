@@ -1,0 +1,33 @@
+unit = 9
+; dy = 0.05
+; dx = 0.14225 + dy*0.7155
+dy = 0.0
+dx1 = 0.284507 + dy*0.7155
+ch = 'a123'
+;
+openr,unit,'wivsnu.oa2'
+readf,unit,alpha
+a2 = 2.*(1.+alpha)
+readf,unit,ndata
+wi=fltarr(ndata)
+wif = wi
+nu = wi
+;for i = 0,ndata-1 do begin readf,unit,format='(3(e24.16,x))',t1,t2,t3&nu(i)=t1&wi(i)=t3&wif(i)=-(1.+alpha)/nu(i)/2.&end
+for i = 0,ndata-1 do begin readf,unit,format='(3(e24.16,x))',t1,t2,t3&nu(i)=t1&wi(i)=t3&wif(i)=(-nu(i)+sqrt(abs(a2-nu(i)*nu(i))))/2.&end
+;print,wif
+set_plot,'ps'
+device,filename='wivsnua2.ps'
+xyouts,0.,0.,'!6 ',/normal
+plot,nu,wi,$
+position = [dx1,0.,1.,1.-dy],charsize=1.5
+oplot,nu,wif,linestyle = 2
+xyouts,0.4,1.05,'!7a!6 = ',size = 2.,/normal
+xyouts,0.4,1.05,alpha,size = 2.,/normal
+xyouts,0.25,0.0055,'!7X!6!Di!N',size = 2.
+xyouts,7.2,0.0002,'!7l!6',size = 2.
+device,/close
+set_plot,'x'
+close,unit
+stop
+
+
